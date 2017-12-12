@@ -1,79 +1,55 @@
-import { queryNotices } from '../services/api';
+import { getUserInfoAjax } from '../api/index.js';
+import { message } from 'antd';
+import Cookie from 'js-cookie';
+import { routerRedux } from 'dva/router';
 
 export default {
   namespace: 'global',
 
   state: {
-    collapsed: false,
-    notices: [],
-    fetchingNotices: false,
+    loginStatus: false,
+    userInfo: {
+      userId: '',
+      username: '',
+      avatar: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/avatar.png'
+    }
   },
-
   effects: {
-    *fetchNotices(_, { call, put }) {
-      yield put({
-        type: 'changeNoticeLoading',
-        payload: true,
-      });
-      const data = yield call(queryNotices);
-      yield put({
-        type: 'saveNotices',
-        payload: data,
-      });
-      yield put({
-        type: 'user/changeNotifyCount',
-        payload: data.length,
-      });
-    },
-    *clearNotices({ payload }, { put, select }) {
-      yield put({
-        type: 'saveClearedNotices',
-        payload,
-      });
-      const count = yield select(state => state.global.notices.length);
-      yield put({
-        type: 'user/changeNotifyCount',
-        payload: count,
-      });
-    },
+    *getUserInfo ({ id }, { call, put }) {
+      let result = yield call(getUserInfoAjax, {userId: id});
+      if (result.code === 200) {
+        yield put({
+          type: 'setUserInfo',
+          data: result.data
+        });
+      } else message.error(result.message);
+    }
   },
-
   reducers: {
-    changeLayoutCollapsed(state, { payload }) {
+    setUserInfo (state, { data }) {
+      console.log(data.username, data.avatar, data.userId);
       return {
         ...state,
-        collapsed: payload,
-      };
-    },
-    saveNotices(state, { payload }) {
-      return {
-        ...state,
-        notices: payload,
-        fetchingNotices: false,
-      };
-    },
-    saveClearedNotices(state, { payload }) {
-      return {
-        ...state,
-        notices: state.notices.filter(item => item.type !== payload),
-      };
-    },
-    changeNoticeLoading(state, { payload }) {
-      return {
-        ...state,
-        fetchingNotices: payload,
+        loginStatus: true,
+        userInfo: {
+          userId: data.userId,
+          username: data.username,
+          avatar: data.avatar
+        }
       };
     },
   },
-
   subscriptions: {
-    setup({ history }) {
-      // Subscribe history(url) change, trigger `load` action if pathname is `/`
-      return history.listen(({ pathname, search }) => {
-        if (typeof window.ga !== 'undefined') {
-          window.ga('send', 'pageview', pathname + search);
+    setup({ dispatch, history }) {
+      history.listen(({ pathname }) => {
+        if (!Cookie.get('passport') || !Cookie.get('userId') || !Cookie.get('username')) {
+          Cookie.remove('userId');
+          Cookie.remove('username');
+          Cookie.remove('passport');
+          window.loginStatus = false;
+          if (pathname !== '/login') dispatch(routerRedux.push('/login'));
         }
       });
-    },
-  },
+    }
+  }
 };

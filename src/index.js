@@ -16,7 +16,9 @@ const app = dva({
 // app.use({});
 
 // 3. Register global model
-app.model(require('./models/global'));
+app.model(require('./models/global.js'));
+app.model(require('./models/login.js'));
+app.model(require('./models/newest.js'));
 
 // 4. Router
 app.router(router);
