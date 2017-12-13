@@ -8,7 +8,6 @@ import md5 from '../lib/md5.js';
 export default {
   namespace: 'login',
   state: {
-    status: false
   },
   effects: {
     *loginEvent({ value }, { call, put }) {
@@ -23,7 +22,7 @@ export default {
         window.ajaxFunc.setHeader('passport', result.data.passport);
         window.ajaxFunc.setHeader('userId', result.data.userId);
         window.loginStatus = true;
-        yield put(routerRedux.push('/'));
+        yield put(routerRedux.push('/newest'));
         notification.success({
           message: '登陆成功',
           description: result.message,

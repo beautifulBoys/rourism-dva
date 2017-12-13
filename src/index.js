@@ -20,6 +20,7 @@ app.model(require('./models/global.js'));
 app.model(require('./models/login.js'));
 app.model(require('./models/newest.js'));
 app.model(require('./models/hotest.js'));
+app.model(require('./models/mostest.js'));
 
 // 4. Router
 app.router(router);

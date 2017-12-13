@@ -13,7 +13,8 @@ class Sub extends React.Component {
     });
   }
   MenuItemEvent ({key}) {
-    this.props.dispatch(routerRedux.push(key));
+    console.log(key);
+    if (key !== '/main') this.props.dispatch(routerRedux.push(key));
   }
   render() {
     return (
@@ -26,7 +27,7 @@ class Sub extends React.Component {
           onClick={this.MenuItemEvent.bind(this)}
           inlineCollapsed={this.state.collapsed}
         >
-          <Menu.Item key="1"><Icon type="pie-chart" /><span>首页</span></Menu.Item>
+          <Menu.Item key="/main"><Icon type="pie-chart" /><span>首页</span></Menu.Item>
           <SubMenu key="sub2" title={<span><Icon type="mail" /><span>逛圈子</span></span>}>
             <Menu.Item key="/newest">最新动态</Menu.Item>
             <Menu.Item key="/hotest">最热动态</Menu.Item>

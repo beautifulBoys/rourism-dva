@@ -30,8 +30,6 @@ class Login extends React.Component {
   }
   render() {
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
-    let {status} = this.props;
-    console.log('status: ', status);
     // Only show error after a field is touched.
     const userNameError = isFieldTouched('userName') && getFieldError('userName');
     const passwordError = isFieldTouched('password') && getFieldError('password');
@@ -40,7 +38,6 @@ class Login extends React.Component {
         <div className={styles.box + ' ' + styles.move}>
           <div className={styles.logo}>旅</div>
           <div className={styles['login-box']}>
-          <span>{status.toString()}</span>
             <Form onSubmit={this.handleSubmit}>
               <FormItem
                 validateStatus={userNameError ? 'error' : ''}
