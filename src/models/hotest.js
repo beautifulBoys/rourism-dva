@@ -1,42 +1,82 @@
 import { routerRedux } from 'dva/router';
 import Cookies from 'js-cookie';
-import { loginAjax } from '../api/index.js';
-import { notification } from 'antd';
-
-import md5 from '../lib/md5.js';
+import { postAjax } from '../api/index.js';
+import { notification, message } from 'antd';
 
 export default {
   namespace: 'hotest',
   state: {
-    status: false
+    status: false,
+    list: [],
+    loadmoreButtonShow: true,
+    loadmoreButtonStatus: false,
+    pageConfig: {
+      page: 0,
+      num: 10
+    }
   },
   effects: {
-    *loginEvent({ value }, { call, put }) {
-      const result = yield call(loginAjax, {
-        username: value.username,
-        password: md5(value.password)
+    *getData({}, { call, put, select }) {
+      let {pageConfig} = yield select(state => state.hotest);
+      yield put({
+        type: 'changeLoadMoreStatus',
+        status: true
+      });
+      const result = yield call(postAjax, {
+        type: 'hotest',
+        ...pageConfig
+      });
+      yield put({
+        type: 'changeLoadMoreStatus',
+        status: false
       });
       if (result.code === 200) {
-        Cookies.set('passport', result.data.passport, { expires: 1 });
-        Cookies.set('userId', result.data.userId, { expires: 1 });
-        Cookies.set('username', result.data.username, { expires: 1 });
-        window.ajaxFunc.setHeader('passport', result.data.passport);
-        window.ajaxFunc.setHeader('userId', result.data.userId);
-        window.loginStatus = true;
-        yield put(routerRedux.push('/'));
-        notification.success({
-          message: '登陆成功',
-          description: result.message,
+        yield put({
+          type: 'setDataList',
+          list: result.data.list
         });
+        if (result.data.list.length < pageConfig.num) {
+          yield put({
+            type: 'changeLoadMoreShow',
+            status: false
+          });
+        } else {
+          yield put({
+            type: 'changePage',
+            num: pageConfig.page + 1
+          });
+        }
       } else {
-        console.log(result.message);
+        message.error(result.message);
       }
     }
   },
   reducers: {
-    changeLoginStatus(state, { payload }) {
+    setDataList(state, { list }) {
       return {
-        status: true
+        ...state,
+        list: [...state.list, ...list]
+      };
+    },
+    changePage (state, {num}) {
+      return {
+        ...state,
+        pageConfig: {
+          ...state.pageConfig,
+          page: num
+        }
+      };
+    },
+    changeLoadMoreShow (state, {status}) {
+      return {
+        ...state,
+        loadmoreButtonShow: status
+      };
+    },
+    changeLoadMoreStatus (state, {status}) {
+      return {
+        ...state,
+        loadmoreButtonStatus: status
       };
     }
   },
