@@ -16,7 +16,7 @@ class Collapse extends React.PureComponent {
   }
   render() {
     let {num, isStared, commentList, starEvent, pinglunEvent} = this.props;
-
+    
     return (
       <div className={styles.collapse}>
         <div className={styles.line}>

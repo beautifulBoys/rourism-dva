@@ -80,13 +80,12 @@ class Dynamic extends React.PureComponent {
         <div className={styles['li-right']}>
           <div className={styles.title}>
             <span>{listItem.title}</span>
-            <span>（仅本人可见）</span>
+            {listItem.status !== 1 || <span>（仅本人可见）</span>}
             <div className={styles['sign-box']}><span className={styles.sign}></span></div>
             {
               !control || (<Dropdown overlay={controlTemplate} trigger={['click']}>
                   <Button className={styles.fright}>操作</Button>
                 </Dropdown>)
-              }
             }
 
             <Dropdown overlay={tagTemplate} trigger={['click']}>
