@@ -9,6 +9,7 @@ import Submenu from './submenu.js';
 import Header from './header.js';
 import Newest from '../newest/newest.js';
 import Hotest from '../hotest/hotest.js';
+import ImgScan from '../../components/box/img_scan.js';
 import styles from './index.less';
 
 class BasicLayout extends React.PureComponent {
@@ -37,6 +38,7 @@ class BasicLayout extends React.PureComponent {
             </Switch>
           </div>
         </div>
+        <ImgScan />
       </div>
     );
   }

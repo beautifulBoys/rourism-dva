@@ -9,16 +9,45 @@ export default {
   namespace: 'newest',
   state: {
     status: false,
-    list: []
+    list: [],
+    loadmoreButtonShow: true,
+    loadmoreButtonStatus: false,
+    pageConfig: {
+      page: 0,
+      num: 10
+    }
   },
   effects: {
-    *getData({ data }, { call, put }) {
-      const result = yield call(postAjax, data);
+    *getData({}, { call, put, select }) {
+      let {pageConfig} = yield select(state => state.newest);
+      yield put({
+        type: 'changeLoadMoreStatus',
+        status: true
+      });
+      const result = yield call(postAjax, {
+        type: 'newest',
+        ...pageConfig
+      });
+      yield put({
+        type: 'changeLoadMoreStatus',
+        status: false
+      });
       if (result.code === 200) {
         yield put({
           type: 'setDataList',
           list: result.data.list
         });
+        if (result.data.list.length < pageConfig.num) {
+          yield put({
+            type: 'changeLoadMoreShow',
+            status: false
+          });
+        } else {
+          yield put({
+            type: 'changePage',
+            num: pageConfig.page + 1
+          });
+        }
       } else {
         message.error(result.message);
       }
@@ -28,7 +57,28 @@ export default {
     setDataList(state, { list }) {
       return {
         ...state,
-        list
+        list: [...state.list, ...list]
+      };
+    },
+    changePage (state, {num}) {
+      return {
+        ...state,
+        pageConfig: {
+          ...state.pageConfig,
+          page: num
+        }
+      };
+    },
+    changeLoadMoreShow (state, {status}) {
+      return {
+        ...state,
+        loadmoreButtonShow: status
+      };
+    },
+    changeLoadMoreStatus (state, {status}) {
+      return {
+        ...state,
+        loadmoreButtonStatus: status
       };
     }
   },

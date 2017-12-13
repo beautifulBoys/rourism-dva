@@ -10,30 +10,31 @@ import Dynamic from '../../components/dynamic.js';
 
 class Newest extends React.PureComponent {
   componentDidMount() {
+    this.loadMoreEvent();
+  }
+  loadMoreEvent () {
     this.props.dispatch({
-      type: 'newest/getData',
-      data: {
-        type: 'newest',
-        page: 0,
-        num: 10
-      }
+      type: 'newest/getData'
     });
   }
-
   render() {
-    const {list} = this.props;
+    const {list, loadmoreButtonStatus, loadmoreButtonShow} = this.props;
     return (
       <div className={styles.newest}>
         <h1>最新动态</h1>
         <div className={styles['content-box']}>
           <div className={styles.left}>
             <ul className={styles.ul}>
-              <li className={styles.li}>
               {
-                list.map((item, index) => <Dynamic key={index} listItem={item} />)
+                list.map((item, index) => (
+                  <li className={styles.li} key={index}>
+                    <Dynamic key={index} listItem={item}/>
+                  </li>
+                ))
               }
-              </li>
-              <Button type="primary" className={styles.loadMore}>点击加载更多</Button>
+              {
+                !loadmoreButtonShow || <Button type="primary" loading={loadmoreButtonStatus} onClick={this.loadMoreEvent.bind(this)} className={styles.loadMore}>点击加载更多</Button>
+              }
             </ul>
           </div>
           <div className={styles.rignt}></div>
@@ -44,5 +45,7 @@ class Newest extends React.PureComponent {
 }
 
 export default connect(state => ({
-  list: state.newest.list
+  list: state.newest.list,
+  loadmoreButtonShow: state.newest.loadmoreButtonShow,
+  loadmoreButtonStatus: state.newest.loadmoreButtonStatus
 }))(Newest);

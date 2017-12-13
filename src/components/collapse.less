@@ -1,0 +1,58 @@
+.collapse {
+  width: 100%;
+  font-size: 0;
+  border-radius: 0 0 5px 5px;
+  .line {
+    line-height: 40px;
+    border-top: 1px solid #ddd;
+    font-size: 0;
+    .btn {
+      display: inline-block;
+      cursor: pointer;
+      padding: 0 20px;
+      font-size: 16px;
+      line-height: 40px;
+      &:hover {
+        background: #eee;
+      }
+      .iccon {
+        transition: all .5s;
+      }
+      .rotate {
+        transform: rotate(90deg);
+      }
+      &.right {
+        float: right;
+        border-left: 1px solid #ddd;
+      }
+      &.left {
+        border-right: 1px solid #ddd;
+      }
+      .icon-o {
+        color: #999;
+        font-size: 20px;
+      }
+      .icon {
+        color: rgb(255, 153, 0);
+        font-size: 20px;
+      }
+    }
+  }
+
+
+  .box {
+    width: 100%;
+    max-height: 0;
+    display: block;
+    overflow: hidden;
+    background: #fbfbfb;
+    padding: 0 15px;
+    box-sizing: border-box;
+    transition: max-height .5s;
+    margin-top: -6px;
+    &.collapse {
+      max-height: 500px;
+      border-top: 1px solid #ddd;
+    }
+  }
+}

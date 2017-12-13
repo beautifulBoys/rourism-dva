@@ -6,7 +6,7 @@ import { notification } from 'antd';
 import md5 from '../lib/md5.js';
 
 export default {
-  namespace: 'login',
+  namespace: 'hotest',
   state: {
     status: false
   },
