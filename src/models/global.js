@@ -17,6 +17,17 @@ export default {
     img_scanSrc: ''
   },
   effects: {
+    *getUserInfo({id}, {put, select, call}) {
+      const result = yield call(getUserInfoAjax, {userId: id});
+      if (result.code === 200) {
+        yield put({
+          type: 'setUserInfo',
+          data: result.data
+        });
+      } else {
+        message.error('获取用户信息失败');
+      }
+    }
   },
   reducers: {
     openImgScan (state, { src }) {
@@ -26,10 +37,20 @@ export default {
         img_scanSrc: src
       };
     },
-    closeImgScan (state, { }) {
+    closeImgScan (state, {}) {
       return {
         ...state,
         img_scanShow: false
+      };
+    },
+    setUserInfo (state, {data}) {
+      return {
+        ...state,
+        userInfo: {
+          username: data.username,
+          userId: data.userId,
+          avatar: data.avatar
+        }
       };
     }
   },

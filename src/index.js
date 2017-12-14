@@ -21,6 +21,7 @@ app.model(require('./models/login.js'));
 app.model(require('./models/newest.js'));
 app.model(require('./models/hotest.js'));
 app.model(require('./models/mostest.js'));
+app.model(require('./models/allfriend.js'));
 
 // 4. Router
 app.router(router);

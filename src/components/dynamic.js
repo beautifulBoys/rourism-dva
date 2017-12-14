@@ -143,6 +143,7 @@ class Dynamic extends React.PureComponent {
           onCancel={this.pinglunModalCloseEvent.bind(this)}
         >
           请输入你的评论内容：
+          <br/><br/>
           <Input onChange={(e) => {
             this.setState({pinglunInputValue: e.target.value});
           }}/>
