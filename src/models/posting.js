@@ -63,9 +63,14 @@ export default {
       };
     },
     setGalleryData (state, { list }) {
+      let arr = [];
+      list.map(item => {
+        item.checked = false;
+        arr.push(item);
+      });
       return {
         ...state,
-        urls: [...list]
+        urls: [...arr]
       };
     }
   },

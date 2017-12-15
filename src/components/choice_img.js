@@ -13,6 +13,9 @@ export default class ChoiceImg extends React.PureComponent {
       urls: []
     };
   }
+  componentDidMount () {
+    console.log(this.state.urls);
+  }
   ok () {
     this.props.show = false;
   }
@@ -23,10 +26,11 @@ export default class ChoiceImg extends React.PureComponent {
     this.setState({show: true});
   }
   clickEvent (item) {
-
+    this.state.urls.filter(item => {
+      item.checked = !item.checked;
+    });
   }
   render() {
-    let {} = this.props;
 
     return (
       <Modal

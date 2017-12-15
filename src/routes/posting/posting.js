@@ -41,7 +41,7 @@ class posting extends React.PureComponent {
 
   render () {
     const me = this;
-    const {cityData} = this.props;
+    const {cityData, urls} = this.props;
     const { getFieldDecorator, setFieldsValue } = this.props.form;
 
     const formItemLayout = {
@@ -129,7 +129,7 @@ class posting extends React.PureComponent {
             <Button type="primary" htmlType="submit">发　表</Button>
           </Form.Item>
         </Form>
-        <ChoiceImg ref="choice" urls={this.props.urls}/>
+        <ChoiceImg ref="choice" urls={urls}/>
         </div>
       </div>
     );
