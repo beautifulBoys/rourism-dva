@@ -22,6 +22,9 @@ export default class ChoiceImg extends React.PureComponent {
   open () {
     this.setState({show: true});
   }
+  clickEvent (item) {
+
+  }
   render() {
     let {} = this.props;
 
@@ -36,7 +39,13 @@ export default class ChoiceImg extends React.PureComponent {
         <div className={styles['img-box']}>
           {
             this.props.urls.map((item, index) => (
-              <LoadImg key={index} src={item.url} style={{width: '200px'}}/>
+              <div className={styles['img-box-picture'] + ' ' + (item.checked ? styles.checked : '')}
+                key={index} onClick={this.clickEvent.bind(this, item)}
+              >
+                <LoadImg key={index} src={item.url}/>
+                <div className={styles.sign}></div>
+                <div className={styles.text}>✔</div>
+              </div>
             ))
           }
         </div>

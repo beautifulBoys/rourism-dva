@@ -9,7 +9,7 @@ class LoadImg extends React.PureComponent {
   componentDidMount() {
     let newImg = new Image();
     newImg.src = this.props.src;
-    newImg.setAttribute('class', 'img-lixin');
+    newImg.setAttribute('style', 'width: 100%');
     newImg.onload = () => {
       let child = this.refs.img;
       if (!child) return;

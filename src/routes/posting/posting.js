@@ -54,15 +54,6 @@ class posting extends React.PureComponent {
         sm: { span: 22 },
       },
     };
-    const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '86',
-    })(
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    );
-
     return (
       <div className={styles.posting}>
         <h1>写分享</h1>
