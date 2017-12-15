@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
 import {connect} from 'dva';
 import {Button, Input, Table, Modal, message} from 'antd';
-import styles from './allfriend.less';
+import styles from './following.less';
 
-class allfriend extends React.PureComponent {
+class following extends React.PureComponent {
   constructor (props) {
     super(props);
     this.state = {
@@ -17,10 +17,7 @@ class allfriend extends React.PureComponent {
     };
   }
   componentDidMount () {
-    this.loadMoreEvent(1);
-  }
-  loadMoreEvent (num) {
-    this.props.dispatch({type: 'allfriend/getData', page: num});
+    this.props.dispatch({type: 'following/getData'});
   }
   modalCloseEvent () {
     this.setState({
@@ -36,7 +33,7 @@ class allfriend extends React.PureComponent {
     let me = this;
     if (!this.state.currentIndex) return;
     this.props.dispatch({
-      type: `allfriend/${me.state.currentIndex}Event`,
+      type: `following/${me.state.currentIndex}Event`,
       data: {
         remark: this.state.inputValue,
         to: this.state.currentItem.id,
@@ -47,10 +44,6 @@ class allfriend extends React.PureComponent {
     });
   }
   addfriendEvent (record) {
-    if (record.id === this.props.userInfo.userId) {
-      message.error('不能添加自己为好友');
-      return;
-    }
     this.setState({
       modalStatus: true,
       tipText: `请输入添加 ${record.username} 为好友的理由`,
@@ -59,10 +52,6 @@ class allfriend extends React.PureComponent {
     });
   }
   webmailEvent (record) {
-    if (record.id === this.props.userInfo.userId) {
-      message.error('不能给自己发送站内信');
-      return;
-    }
     this.setState({
       modalStatus: true,
       tipText: `请输入发送给 ${record.username} 的站内信`,
@@ -70,13 +59,9 @@ class allfriend extends React.PureComponent {
       currentIndex: 'webmail'
     });
   }
-  followingEvent (record) {
-    if (record.id === this.props.userInfo.userId) {
-      message.error('不能关注自己');
-      return;
-    }
+  deleteFollowingEvent (record) {
     this.props.dispatch({
-      type: `allfriend/followingEvent`,
+      type: `following/deleteFollowingEvent`,
       data: {
         id: record.id
       }
@@ -105,15 +90,15 @@ class allfriend extends React.PureComponent {
           <div>
             <Button onClick={this.addfriendEvent.bind(this, record)}>加好友</Button>　
             <Button onClick={this.webmailEvent.bind(this, record)}>站内信</Button>　
-            <Button type="danger" onClick={this.followingEvent.bind(this, record)}>关注</Button>
+            <Button type="danger" onClick={this.deleteFollowingEvent.bind(this, record)}>解除关注</Button>
           </div>
         )
       }
     ];
 
     return (
-      <div className={styles.allfriend}>
-        <h1>所有圈友</h1>
+      <div className={styles.following}>
+        <h1>我的关注</h1>
         <div className={styles['content-box']}>
           <Table
             bordered={true}
@@ -127,13 +112,7 @@ class allfriend extends React.PureComponent {
               </div>
             )}
             dataSource={list}
-            pagination={{
-              pageSize: pageConfig.num,
-              total: pageConfig.total,
-              onChange (page) {
-                me.loadMoreEvent(page)
-              }
-            }}
+            pagination={false}
             className={styles.table}
           />
           <Modal
@@ -156,6 +135,6 @@ class allfriend extends React.PureComponent {
 
 export default connect(state => ({
   userInfo: state.global.userInfo,
-  list: state.allfriend.list,
-  pageConfig: state.allfriend.pageConfig
-}))(allfriend);
+  list: state.following.list,
+  pageConfig: state.following.pageConfig
+}))(following);

@@ -21,9 +21,7 @@ class LoadImg extends React.PureComponent {
     const avatar = zhanweiData;
 
     return (
-      <div>
         <img src={avatar} ref="img" className={styles['img-lixin']}/>
-      </div>
     );
   }
 }

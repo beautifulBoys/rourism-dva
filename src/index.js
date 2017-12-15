@@ -22,6 +22,10 @@ app.model(require('./models/newest.js'));
 app.model(require('./models/hotest.js'));
 app.model(require('./models/mostest.js'));
 app.model(require('./models/allfriend.js'));
+app.model(require('./models/friend.js'));
+app.model(require('./models/following.js'));
+app.model(require('./models/followers.js'));
+app.model(require('./models/posting.js'));
 
 // 4. Router
 app.router(router);

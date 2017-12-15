@@ -11,6 +11,10 @@ import Newest from '../newest/newest.js';
 import Hotest from '../hotest/hotest.js';
 import Mostest from '../mostest/mostest.js';
 import Allfriend from '../allfriend/allfriend.js';
+import Friend from '../friend/friend.js';
+import Followers from '../followers/followers.js';
+import Following from '../following/following.js';
+import Posting from '../posting/posting.js';
 
 import ImgScan from '../../components/box/img_scan.js';
 import styles from './index.less';
@@ -40,6 +44,10 @@ class BasicLayout extends React.PureComponent {
               <Route exact path="/hotest" render={props => <Hotest />} />
               <Route exact path="/mostest" render={props => <Mostest />} />
               <Route exact path="/allfriend" render={props => <Allfriend />} />
+              <Route exact path="/friend" render={props => <Friend />} />
+              <Route exact path="/followers" render={props => <Followers />} />
+              <Route exact path="/following" render={props => <Following />} />
+              <Route exact path="/posting" render={props => <Posting />} />
             </Switch>
           </div>
         </div>

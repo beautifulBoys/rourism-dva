@@ -1,22 +1,15 @@
 import Cookies from 'js-cookie';
-import { allfriendAjax, addFriendAjax, sendWebMailAjax, toFollowAjax } from '../api/index.js';
+import { myFollowingAjax, addFriendAjax, sendWebMailAjax, deleteFollowingAjax } from '../api/index.js';
 import { notification, message } from 'antd';
 
 export default {
-  namespace: 'allfriend',
+  namespace: 'following',
   state: {
-    list: [],
-    pageConfig: {
-      page: 0,
-      num: 10,
-      total: 0
-    }
+    list: []
   },
   effects: {
-    *getData ({page}, { call, put, select }) {
-      let {pageConfig} = yield select(state => state.allfriend);
-      if (page) pageConfig.page = page - 1;
-      const result = yield call(allfriendAjax, pageConfig);
+    *getData ({}, { call, put, select }) {
+      const result = yield call(myFollowingAjax);
       if (result.code === 200) {
         yield put({
           type: 'setDataList',
@@ -44,10 +37,14 @@ export default {
         message.error(result.message);
       }
     },
-    *followingEvent ({data}, { call, put, select }) {
-      const result = yield call(toFollowAjax, data);
+    *deleteFollowingEvent ({data}, { call, put, select }) {
+      const result = yield call(deleteFollowingAjax, data);
       if (result.code === 200) {
         message.success(result.message);
+        yield put({
+          type: 'setDataList',
+          data: result.data
+        });
       } else {
         message.warning(result.message);
       }
@@ -62,20 +59,7 @@ export default {
       });
       return {
         ...state,
-        list: [...arr],
-        pageConfig: {
-          ...state.pageConfig,
-          total: data.total
-        }
-      };
-    },
-    changePage (state, {num}) {
-      return {
-        ...state,
-        pageConfig: {
-          ...state.pageConfig,
-          page: num
-        }
+        list: [...arr]
       };
     }
   },

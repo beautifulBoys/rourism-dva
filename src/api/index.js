@@ -9,3 +9,14 @@ export const starAjax = data => ajax1.post('/star', data);
 export const allfriendAjax = data => ajax1.post('/allUser', data);
 export const addFriendAjax = data => ajax1.post('/addFriend', data);
 export const sendWebMailAjax = data => ajax1.post('/sendWebMail', data);
+export const toFollowAjax = data => ajax1.post('/toFollow', data);
+
+export const myFriendAjax = data => ajax1.post('/myFriend', data);
+export const myFollowingAjax = data => ajax1.post('/myFollowing', data);
+export const followersAjax = data => ajax1.post('/follows', data);
+export const deleteFriendAjax = data => ajax1.post('/deleteFriend', data);
+export const deleteFollowingAjax = data => ajax1.post('/deleteFollowing', data);
+
+export const getCityDataAjax = data => ajax1.post('/getCityData', data);
+
+export const getGalleryAjax = data => ajax1.post('/gallery', data);

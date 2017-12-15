@@ -39,6 +39,14 @@ class Sub extends React.Component {
             <Menu.Item key="/following">我的关注</Menu.Item>
             <Menu.Item key="/followers">我的粉丝</Menu.Item>
           </SubMenu>
+          <SubMenu key="sub4" title={<span><Icon type="mail" /><span>个人中心</span></span>}>
+            <Menu.Item key="/posting">写分享</Menu.Item>
+            <Menu.Item key="/posted">我分享的</Menu.Item>
+            <Menu.Item key="/likes">我点赞的</Menu.Item>
+            <Menu.Item key="/comments">我评论的</Menu.Item>
+            <Menu.Item key="/space">私人空间</Menu.Item>
+            <Menu.Item key="/gallery">我的图库</Menu.Item>
+          </SubMenu>
         </Menu>
       </div>
     );
