@@ -8,14 +8,24 @@ import md5 from '../lib/md5.js';
 export default {
   namespace: 'ranking',
   state: {
-    status: false,
-    list: [],
-    loadmoreButtonShow: true,
-    loadmoreButtonStatus: false,
-    pageConfig: {
-      page: 0,
-      num: 10
-    }
+    list: [
+      {
+        title: '分享排行榜',
+        arr: []
+      },
+      {
+        title: '粉丝排行榜',
+        arr: []
+      },
+      {
+        title: '关注排行榜',
+        arr: []
+      },
+      {
+        title: '好友排行榜',
+        arr: []
+      }
+    ]
   },
   effects: {
     *getData({}, { call, put, select }) {
@@ -24,7 +34,7 @@ export default {
       if (result.code === 200) {
         yield put({
           type: 'setDataList',
-          list: result.data.list
+          data: result.data
         });
       } else {
         message.error(result.message);
@@ -32,31 +42,14 @@ export default {
     }
   },
   reducers: {
-    setDataList(state, { list }) {
+    setDataList(state, { data }) {
+      state.list[0].arr = data.postList;
+      state.list[1].arr = data.followsList;
+      state.list[2].arr = data.followingList;
+      state.list[3].arr = data.friendList;
       return {
         ...state,
-        list: [...state.list, ...list]
-      };
-    },
-    changePage (state, {num}) {
-      return {
-        ...state,
-        pageConfig: {
-          ...state.pageConfig,
-          page: num
-        }
-      };
-    },
-    changeLoadMoreShow (state, {status}) {
-      return {
-        ...state,
-        loadmoreButtonShow: status
-      };
-    },
-    changeLoadMoreStatus (state, {status}) {
-      return {
-        ...state,
-        loadmoreButtonStatus: status
+        list: [...state.list]
       };
     }
   },

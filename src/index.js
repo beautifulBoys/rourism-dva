@@ -31,6 +31,7 @@ app.model(require('./models/likes.js'));
 app.model(require('./models/comments.js'));
 app.model(require('./models/gallery.js'));
 app.model(require('./models/ranking.js'));
+app.model(require('./models/api.js'));
 
 // 4. Router
 app.router(router);

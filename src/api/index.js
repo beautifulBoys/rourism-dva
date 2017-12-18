@@ -28,3 +28,4 @@ export const changeMinePostStatusAjax = data => ajax1.post('/changeMinePostStatu
 export const myStarAjax = data => ajax1.post('/myStar', data);
 export const myCommentsAjax = data => ajax1.post('/myComments', data);
 export const rankingAjax = data => ajax1.post('/ranking', data);
+export const apiAjax = data => ajax1.post('/api', data);
