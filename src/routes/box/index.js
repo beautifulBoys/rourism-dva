@@ -15,6 +15,7 @@ import Friend from '../friend/friend.js';
 import Followers from '../followers/followers.js';
 import Following from '../following/following.js';
 import Posting from '../posting/posting.js';
+import Posted from '../posted/posted.js';
 
 import ImgScan from '../../components/box/img_scan.js';
 import styles from './index.less';
@@ -48,6 +49,7 @@ class BasicLayout extends React.PureComponent {
               <Route exact path="/followers" render={props => <Followers />} />
               <Route exact path="/following" render={props => <Following />} />
               <Route exact path="/posting" render={props => <Posting />} />
+              <Route exact path="/posted" render={props => <Posted />} />
             </Switch>
           </div>
         </div>
