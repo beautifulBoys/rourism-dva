@@ -16,6 +16,11 @@ import Followers from '../followers/followers.js';
 import Following from '../following/following.js';
 import Posting from '../posting/posting.js';
 import Posted from '../posted/posted.js';
+import Likes from '../likes/likes.js';
+import Comments from '../comments/comments.js';
+import Space from '../space/space.js';
+import Gallery from '../gallery/gallery.js';
+import Ranking from '../ranking/ranking.js';
 
 import ImgScan from '../../components/box/img_scan.js';
 import styles from './index.less';
@@ -50,6 +55,11 @@ class BasicLayout extends React.PureComponent {
               <Route exact path="/following" render={props => <Following />} />
               <Route exact path="/posting" render={props => <Posting />} />
               <Route exact path="/posted" render={props => <Posted />} />
+              <Route exact path="/likes" render={props => <Likes />} />
+              <Route exact path="/comments" render={props => <Comments />} />
+              <Route exact path="/space" render={props => <Space />} />
+              <Route exact path="/gallery" render={props => <Gallery />} />
+              <Route exact path="/ranking" render={props => <Ranking />} />
             </Switch>
           </div>
         </div>

@@ -1,12 +1,12 @@
 import { routerRedux } from 'dva/router';
 import Cookies from 'js-cookie';
-import { myPostedAjax } from '../api/index.js';
+import { rankingAjax } from '../api/index.js';
 import { notification, message } from 'antd';
 
 import md5 from '../lib/md5.js';
 
 export default {
-  namespace: 'posted',
+  namespace: 'ranking',
   state: {
     status: false,
     list: [],
@@ -19,32 +19,13 @@ export default {
   },
   effects: {
     *getData({}, { call, put, select }) {
-      let {pageConfig} = yield select(state => state.posted);
-      yield put({
-        type: 'changeLoadMoreStatus',
-        status: true
-      });
-      const result = yield call(myPostedAjax, pageConfig);
-      yield put({
-        type: 'changeLoadMoreStatus',
-        status: false
-      });
+      let {pageConfig} = yield select(state => state.ranking);
+      const result = yield call(rankingAjax);
       if (result.code === 200) {
         yield put({
           type: 'setDataList',
           list: result.data.list
         });
-        if (result.data.list.length < pageConfig.num) {
-          yield put({
-            type: 'changeLoadMoreShow',
-            status: false
-          });
-        } else {
-          yield put({
-            type: 'changePage',
-            num: pageConfig.page + 1
-          });
-        }
       } else {
         message.error(result.message);
       }

@@ -27,6 +27,10 @@ app.model(require('./models/following.js'));
 app.model(require('./models/followers.js'));
 app.model(require('./models/posting.js'));
 app.model(require('./models/posted.js'));
+app.model(require('./models/likes.js'));
+app.model(require('./models/comments.js'));
+app.model(require('./models/gallery.js'));
+app.model(require('./models/ranking.js'));
 
 // 4. Router
 app.router(router);

@@ -1,12 +1,12 @@
 import { routerRedux } from 'dva/router';
 import Cookies from 'js-cookie';
-import { myPostedAjax } from '../api/index.js';
+import { myCommentsAjax } from '../api/index.js';
 import { notification, message } from 'antd';
 
 import md5 from '../lib/md5.js';
 
 export default {
-  namespace: 'posted',
+  namespace: 'comments',
   state: {
     status: false,
     list: [],
@@ -19,12 +19,12 @@ export default {
   },
   effects: {
     *getData({}, { call, put, select }) {
-      let {pageConfig} = yield select(state => state.posted);
+      let {pageConfig} = yield select(state => state.comments);
       yield put({
         type: 'changeLoadMoreStatus',
         status: true
       });
-      const result = yield call(myPostedAjax, pageConfig);
+      const result = yield call(myCommentsAjax, pageConfig);
       yield put({
         type: 'changeLoadMoreStatus',
         status: false

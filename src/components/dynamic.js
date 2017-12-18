@@ -5,7 +5,7 @@ import {Button, Menu, Dropdown, Pagination, Modal, Input, message } from 'antd';
 import styles from './dynamic.less';
 import LoadImg from './load_img.js';
 import Collapse from './collapse.js';
-import {pinglunAjax, starAjax} from '../api/index.js';
+import {pinglunAjax, starAjax, changeMinePostStatusAjax} from '../api/index.js';
 
 class Dynamic extends React.PureComponent {
 
@@ -36,6 +36,13 @@ class Dynamic extends React.PureComponent {
       console.log(this.state.isStared);
     } else message.error(result.message);
   }
+  async controlEvent ({key}) {
+    let result = await changeMinePostStatusAjax({id: this.props.listItem.id, status: key});
+    if (result.code === 200) {
+      message.success(result.message);
+      this.props.refresh();
+    } else message.error(result.message);
+  }
   pinglunModalCloseEvent () {
     this.setState({pinglunModalStatus: false});
   }
@@ -58,9 +65,10 @@ class Dynamic extends React.PureComponent {
     let {listItem, control} = this.props;
     const avatar = 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/avatar.png';
     const controlTemplate = (
-      <Menu>
-        <Menu.Item>删除</Menu.Item>
-        <Menu.Item>隐藏</Menu.Item>
+      <Menu onClick={this.controlEvent.bind(this)}>
+        <Menu.Item key="hide">隐藏</Menu.Item>
+        <Menu.Item key="show">显示</Menu.Item>
+        <Menu.Item key="delete">删除</Menu.Item>
       </Menu>
     );
     const tagTemplate = (
@@ -74,14 +82,22 @@ class Dynamic extends React.PureComponent {
     );
     return (
       <div className={styles.dynamic}>
-        <div className={styles['li-left']} v-if="!type">
-          <img src={listItem.avatar}/>
-        </div>
+        {
+          !this.props.type ? (
+            <div className={styles['li-left']}>
+              <img src={listItem.avatar}/>
+            </div>
+          ) : ''
+        }
         <div className={styles['li-right']}>
           <div className={styles.title}>
             <span>{listItem.title}</span>
             {listItem.status !== 1 || <span>（仅本人可见）</span>}
-            <div className={styles['sign-box']}><span className={styles.sign}></span></div>
+            {
+              !this.props.type ? (
+                <div className={styles['sign-box']}><span className={styles.sign}></span></div>
+              ) : ''
+            }
             {
               !control || (<Dropdown overlay={controlTemplate} trigger={['click']}>
                   <Button className={styles.fright}>操作</Button>

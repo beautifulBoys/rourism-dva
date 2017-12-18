@@ -1,5 +1,5 @@
 export default {
-  namespace: 'choice_img',
+  namespace: 'choice',
   state: {
     list: []
   },

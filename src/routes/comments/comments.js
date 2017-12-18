@@ -4,31 +4,30 @@ import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import { Button, Input } from 'antd';
 import { Link, routerRedux, Route, Redirect, Switch } from 'dva/router';
-
-import styles from './posted.less';
+import styles from './comments.less';
 import Dynamic from '../../components/dynamic.js';
 
-class posted extends React.PureComponent {
+class comments extends React.PureComponent {
   componentDidMount() {
     this.loadMoreEvent();
   }
   loadMoreEvent () {
     this.props.dispatch({
-      type: 'posted/getData'
+      type: 'comments/getData'
     });
   }
   render() {
     const {list, loadmoreButtonStatus, loadmoreButtonShow} = this.props;
     return (
-      <div className={styles.posted}>
-        <h1>我分享的</h1>
+      <div className={styles.comments}>
+        <h1>我评论的</h1>
         <div className={styles['content-box']}>
           <div className={styles.left}>
             <ul className={styles.ul}>
               {
                 list.map((item, index) => (
                   <li className={styles.li} key={index}>
-                    <Dynamic key={index} refresh={this.loadMoreEvent.bind(this)} type={true} listItem={item} control={true}/>
+                    <Dynamic key={index} listItem={item}/>
                   </li>
                 ))
               }
@@ -45,7 +44,7 @@ class posted extends React.PureComponent {
 }
 
 export default connect(state => ({
-  list: state.posted.list,
-  loadmoreButtonShow: state.posted.loadmoreButtonShow,
-  loadmoreButtonStatus: state.posted.loadmoreButtonStatus
-}))(posted);
+  list: state.comments.list,
+  loadmoreButtonShow: state.comments.loadmoreButtonShow,
+  loadmoreButtonStatus: state.comments.loadmoreButtonStatus
+}))(comments);
