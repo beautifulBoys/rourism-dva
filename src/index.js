@@ -26,6 +26,7 @@ app.model(require('./models/friend.js'));
 app.model(require('./models/following.js'));
 app.model(require('./models/followers.js'));
 app.model(require('./models/posting.js'));
+app.model(require('./models/choice_img.js'));
 
 // 4. Router
 app.router(router);

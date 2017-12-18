@@ -5,6 +5,7 @@ import {connect} from 'dva';
 import {Form, Select, Tooltip, Col, Rate, DatePicker, Tag, Checkbox, Row, Icon, Cascader, Button, Input, Table, Modal, message} from 'antd';
 import ChoiceImg from '../../components/choice_img.js';
 import styles from './posting.less';
+import moment from 'moment';
 
 class posting extends React.PureComponent {
   constructor (props) {
@@ -12,7 +13,7 @@ class posting extends React.PureComponent {
     this.state = {
       tagList: [],
       urls: [],
-      imgDialogShow: false
+      postImgList: []
     };
   }
   componentDidMount () {
@@ -22,14 +23,61 @@ class posting extends React.PureComponent {
 
   handleSubmit (e) {
     e.preventDefault();
-
+    e.stopPropagation();
+    let me = this;
+    if (!this.state.tagList.length) {
+      message.warning('请给分享打上标签');
+      return;
+    }
+    if (!this.state.postImgList.length) {
+      message.warning('请添加要分享的图片');
+      return;
+    }
     this.props.form.validateFields((err, values) => {
-      if (!err) console.log(values);
+      if (!err) {
+        let a = {
+          city: values.city,
+          content: values.content,
+          rate: values.rate,
+          spot: values.spot,
+          tagList: this.state.tagList,
+          title: values.title,
+          urls: this.state.postImgList,
+          time: []
+        };
+        for (let i = 0; i < values.time.length; i++) {
+          a.time.push(moment(values.time[i]).format());
+        }
+        this.props.dispatch({
+          type: 'posting/post',
+          cbb: {
+            data: a,
+            fn (text) {
+              me.props.form.setFieldsValue({city: []});
+              me.props.form.setFieldsValue({content: ''});
+              me.props.form.setFieldsValue({rate: null});
+              me.props.form.setFieldsValue({spot: ''});
+              me.props.form.setFieldsValue({tagList: []});
+              me.props.form.setFieldsValue({title: ''});
+              me.props.form.setFieldsValue({time: []});
+              me.setState({
+                postImgList: [],
+                tagList: []
+              });
+              message.success(text);
+            }
+          }
+        });
+      }
     });
   }
   addTagEvent (e) {
     e.preventDefault();
     e.stopPropagation();
+    if (e.target.value.length > 8) {
+      message.warning('标签请输入 8 字以内');
+      return;
+    }
     this.setState({
       tagList: [
         ...this.state.tagList,
@@ -37,6 +85,15 @@ class posting extends React.PureComponent {
       ]
     });
     this.props.form.setFieldsValue({tag: ''});
+  }
+  checkEvent (item) {
+    this.props.dispatch({
+      type: 'posting/checkItem',
+      data: item
+    });
+  }
+  postImgEvent (arr) {
+    this.setState({ postImgList: arr });
   }
 
   render () {
@@ -129,7 +186,7 @@ class posting extends React.PureComponent {
             <Button type="primary" htmlType="submit">发　表</Button>
           </Form.Item>
         </Form>
-        <ChoiceImg ref="choice" urls={urls}/>
+        <ChoiceImg ref="choice" size={10} urls={urls} postImg={this.postImgEvent.bind(this)} checkEvent={this.checkEvent.bind(this)}/>
         </div>
       </div>
     );

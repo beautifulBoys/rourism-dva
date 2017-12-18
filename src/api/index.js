@@ -20,3 +20,6 @@ export const deleteFollowingAjax = data => ajax1.post('/deleteFollowing', data);
 export const getCityDataAjax = data => ajax1.post('/getCityData', data);
 
 export const getGalleryAjax = data => ajax1.post('/gallery', data);
+export const postingAjax = data => ajax1.post('/posting', data);
+
+export const myPostedAjax = data => ajax1.post('/myPosted', data);

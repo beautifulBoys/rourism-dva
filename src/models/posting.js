@@ -10,17 +10,6 @@ export default {
     urls: []
   },
   effects: {
-    *getData ({}, { call, put, select }) {
-      const result = yield call(postingAjax);
-      if (result.code === 200) {
-        yield put({
-          type: 'setDataList',
-          data: result.data
-        });
-      } else {
-        message.error(result.message);
-      }
-    },
     *getCityData ({}, { call, put, select }) {
       const result = yield call(getCityDataAjax);
       if (result.code === 200) {
@@ -39,6 +28,14 @@ export default {
           type: 'setGalleryData',
           list: result.data.list
         });
+      } else {
+        message.error(result.message);
+      }
+    },
+    *post ({cbb}, { call, put, select }) {
+      let result = yield call(postingAjax, cbb.data);
+      if (result.code === 200) {
+        cbb.fn(result.message);
       } else {
         message.error(result.message);
       }
@@ -67,6 +64,20 @@ export default {
       list.map(item => {
         item.checked = false;
         arr.push(item);
+      });
+      return {
+        ...state,
+        urls: [...arr]
+      };
+    },
+    checkItem (state, { data }) {
+      let arr = [];
+      state.urls.map(item => {
+        if (data.id === item.id) {
+          item.checked = !item.checked;
+          arr.push(item);
+        }
+        else arr.push(item);
       });
       return {
         ...state,
