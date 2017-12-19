@@ -7,6 +7,12 @@ import { Link, routerRedux, Route, Redirect, Switch } from 'dva/router';
 import styles from './api.less';
 
 class api extends React.PureComponent {
+  constructor (props) {
+    super(props);
+    this.state = {
+      info: {}
+    };
+  }
   componentDidMount() {
     this.props.dispatch({
       type: 'api/getData'
@@ -14,23 +20,20 @@ class api extends React.PureComponent {
   }
 
   render() {
-    const {info} = this.props;
-    console.log(info);
+    const {list} = this.props;
     return (
       <div className={styles.api}>
         <h1>接口统计</h1>
         <div className={styles['content-box']}>
           {
-            for (let key in info) {
-              (
-                <div className={styles.item}>
-                  <div className={styles.title}>{item.text}</div>
-                  <div className={styles.number}>
-                    <span>{item.value}</span><span className={styles.second}>次</span>
-                  </div>
+            list.map((item, index) => (
+              <div className={styles.item} key={index}>
+                <div className={styles.title}>{item.text}</div>
+                <div className={styles.number}>
+                  <span>{item.value}</span><span className={styles.second}>次</span>
                 </div>
-              )
-            }
+              </div>
+            ))
           }
         </div>
       </div>
@@ -39,5 +42,5 @@ class api extends React.PureComponent {
 }
 
 export default connect(state => ({
-  info: state.api.info
+  list: state.api.list
 }))(api);

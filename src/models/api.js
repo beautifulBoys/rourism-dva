@@ -8,6 +8,7 @@ import md5 from '../lib/md5.js';
 export default {
   namespace: 'api',
   state: {
+    list: [],
     info: {
       allapi: {
         text: '接口请求总数',
@@ -106,12 +107,17 @@ export default {
       for (let i in data) {
         allapicount += data[i];
         for (let k in state.info) {
-          if (state.info[k].path === i) state.info[k].value = result.data[i];
+          if (state.info[k].path === i) state.info[k].value = data[i];
         }
       }
       state.info.allapi.value = allapicount;
+      let arr = [];
+      for (let i in state.info) {
+        arr.push(state.info[i]);
+      }
       return {
-        ...state
+        ...state,
+        list: arr
       };
     }
   },

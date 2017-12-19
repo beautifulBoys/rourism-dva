@@ -51,6 +51,17 @@ class Sub extends React.Component {
             <Menu.Item key="/ranking">排行榜</Menu.Item>
             <Menu.Item key="/api">接口访问统计</Menu.Item>
           </SubMenu>
+          <SubMenu key="sub6" title={<span><Icon type="mail" /><span>设置</span></span>}>
+            <Menu.Item key="/personal">个人设置</Menu.Item>
+          </SubMenu>
+          <SubMenu key="sub7" title={<span><Icon type="mail" /><span>说明</span></span>}>
+            <Menu.Item key="/about">关于本站</Menu.Item>
+            <Menu.Item key="/contact">联系我</Menu.Item>
+          </SubMenu>
+
+          <Menu.Item key="/github">GITHUB</Menu.Item>
+          <Menu.Item key="/doudizhu">欢乐斗地主</Menu.Item>
+          <Menu.Item key="/other">其它</Menu.Item>
         </Menu>
       </div>
     );
