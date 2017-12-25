@@ -22,6 +22,8 @@ import Space from '../space/space.js';
 import Gallery from '../gallery/gallery.js';
 import Ranking from '../ranking/ranking.js';
 import Api from '../api/api.js';
+import About from '../about/about.js';
+import Contact from '../contact/contact.js';
 
 import ImgScan from '../../components/box/img_scan.js';
 import styles from './index.less';
@@ -62,6 +64,8 @@ class BasicLayout extends React.PureComponent {
               <Route exact path="/gallery" render={props => <Gallery />} />
               <Route exact path="/ranking" render={props => <Ranking />} />
               <Route exact path="/api" render={props => <Api />} />
+              <Route exact path="/about" render={props => <About />} />
+              <Route exact path="/contact" render={props => <Contact />} />
             </Switch>
           </div>
         </div>

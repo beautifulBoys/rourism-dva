@@ -22,11 +22,8 @@ class Header extends React.PureComponent {
     const { avatar } = this.props;
     return (
         <div className={styles.header}>
-          <Badge count={5} className={styles.button}>
-            <Button>消息盒子</Button>
-          </Badge>
-          <Badge count={5} className={styles.button}>
-            <Button>全站聊天室</Button>
+          <Badge count={0} className={styles.button}>
+            <Button>本站说明</Button>
           </Badge>
           <Dropdown overlay={dropmenu} trigger={['click']} className={styles.user}>
             <img className={styles['user-img']} src={avatar}/>
